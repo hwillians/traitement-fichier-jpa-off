@@ -48,13 +48,11 @@ public class CategorieDaoJdbc implements CategorieDao {
 		try {
 			connection = Connecter.getConnection();
 			Statement canal = connection.createStatement();
-			int nb = canal.executeUpdate("Insert into categorie (nom)"
+			canal.executeUpdate("Insert into categorie (nom)"
 					+"SELECT '"+p.getCategorie()+"'"
 					+"WHERE not exists (select * from categorie "
 					+ "where categorie.nom like '"+p.getCategorie()+"')");
-			if (nb == 1) {
-				//System.out.println("Categorie ajoutée !");
-			}
+			
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());
 		} finally {

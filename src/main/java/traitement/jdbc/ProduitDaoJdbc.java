@@ -20,7 +20,7 @@ public class ProduitDaoJdbc implements ProduitDao {
 		try {
 			connection = Connecter.getConnection();
 			Statement canal = connection.createStatement();
-			ResultSet resultat = canal.executeQuery("select * from allergene");
+			ResultSet resultat = canal.executeQuery("select * from produit");
 
 			while (resultat.next()) {
 				ListeProd.add(new Produit(resultat.getInt("id"), resultat.getString("id_cat"), resultat.getString("id_mrq"),
@@ -92,7 +92,7 @@ public class ProduitDaoJdbc implements ProduitDao {
 							+ prod.getNom() + "');");
 			
 		} catch (Exception e) {
-			System.err.println("Erreur d'éxecution : " + e.getMessage());
+			System.err.println("Erreur d'éxecution : " + e.getMessage() + " "+ prod.getNom());
 		} finally {
 			try {
 				if (connection != null)

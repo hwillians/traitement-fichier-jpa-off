@@ -60,7 +60,7 @@ public class AdditifDaoJdbc implements AdditifDao {
 			}
 		
 		} catch (Exception e) {
-			System.err.println("Erreur d'éxecution : " + e.getMessage());
+			System.err.println("Erreur d'éxecution : " + e.getMessage()+ " : additif of"+ p.getNom());
 		} finally {
 			try {
 				if (connection != null)

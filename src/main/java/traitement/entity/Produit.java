@@ -137,10 +137,32 @@ public class Produit {
 		this.huilePalme = huilePalme;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return  nom ;
+		return "Produit [id=" + id + ", categorie=" + categorie + ", marque=" + marque + ", nom=" + nom + ", grade="
+				+ grade + ", ingredients=" + ingredients + ", allergenes=" + allergenes + ", additifs=" + additifs
+				+ ", energie=" + energie + ", graisse=" + graisse + ", sucre=" + sucre + ", fibre=" + fibre
+				+ ", proteine=" + proteine + ", sel=" + sel + ", vitA=" + vitA + ", vitD=" + vitD + ", vitE=" + vitE
+				+ ", vitK=" + vitK + ", vitC=" + vitC + ", vitB1=" + vitB1 + ", vitB2=" + vitB2 + ", vitPp=" + vitPp
+				+ ", vitB6=" + vitB6 + ", vitB9=" + vitB9 + ", vitB12=" + vitB12 + ", ca=" + ca + ", mg=" + mg
+				+ ", iron=" + iron + ", fer=" + fer + ", betaCaro=" + betaCaro + ", huilePalme=" + huilePalme
+				+ ", getId()=" + getId() + ", getNom()=" + getNom() + ", getCategorie()=" + getCategorie()
+				+ ", getMarque()=" + getMarque() + ", getGrade()=" + getGrade() + ", getIngredients()="
+				+ getIngredients() + ", getAllergenes()=" + getAllergenes() + ", getAdditifs()=" + getAdditifs()
+				+ ", getEnergie()=" + getEnergie() + ", getGraisse()=" + getGraisse() + ", getSucre()=" + getSucre()
+				+ ", getFibre()=" + getFibre() + ", getProteine()=" + getProteine() + ", getSel()=" + getSel()
+				+ ", getVitA()=" + getVitA() + ", getVitD()=" + getVitD() + ", getVitE()=" + getVitE() + ", getVitK()="
+				+ getVitK() + ", getVitC()=" + getVitC() + ", getVitB1()=" + getVitB1() + ", getVitB2()=" + getVitB2()
+				+ ", getVitPp()=" + getVitPp() + ", getVitB6()=" + getVitB6() + ", getVitB9()=" + getVitB9()
+				+ ", getVitB12()=" + getVitB12() + ", getCa()=" + getCa() + ", getMg()=" + getMg() + ", getIron()="
+				+ getIron() + ", getFer()=" + getFer() + ", getBetaCaro()=" + getBetaCaro() + ", getHuilePalme()="
+				+ getHuilePalme() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
+
+
 
 	/**
 	 * @return the id

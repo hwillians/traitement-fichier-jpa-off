@@ -58,7 +58,7 @@ public class IngredientDaoJdbc implements IngredientDao {
 			}
 
 		} catch (Exception e) {
-			System.err.println("Erreur d'éxecution : " + e.getMessage());
+			System.err.println("Erreur d'éxecution : " + e.getMessage()+ p.getIngredients() + " : ingredient of"+ p.getNom());
 		} finally {
 			try {
 				if (connection != null)

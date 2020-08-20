@@ -23,7 +23,6 @@ public class TraitementFichier {
 				String ligne = lignes.get(i);
 				ligne = Nettoyage.Remplacer(lignes, i);
 				Produit prod = Separer.Separateur(ligne);
-//				System.out.println(ligne);
 				produits.add(prod);
 			}
 			return produits;

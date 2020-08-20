@@ -15,6 +15,7 @@ import traitement.jdbc.CategorieDaoJdbc;
 import traitement.jdbc.IngredientDaoJdbc;
 import traitement.jdbc.MarqueDaoJdbc;
 import traitement.jdbc.ProduitDaoJdbc;
+
 import traitement.outils.TraitementFichier;
 
 public class Application {
@@ -22,7 +23,17 @@ public class Application {
 	public static void main(String[] args) {
 
 		ArrayList<Produit> produits = TraitementFichier.lire();
+		
 
+//		int i = 1;
+//		for (Produit p : produits) {
+//			i++;
+//			System.out.println(i + "._ " + p);
+//			if (i == 3) {
+//				return;
+//			}
+//		}
+//
 		MarqueDaoJdbc mrq = new MarqueDaoJdbc();
 		CategorieDaoJdbc cat = new CategorieDaoJdbc();
 		IngredientDaoJdbc ing = new IngredientDaoJdbc();

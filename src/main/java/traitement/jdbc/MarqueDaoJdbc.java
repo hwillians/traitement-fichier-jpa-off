@@ -61,7 +61,7 @@ public class MarqueDaoJdbc implements MarqueDao {
 				if (connection != null)
 					connection.close();
 			} catch (SQLException e) {
-				System.err.println("Probleme de connection close : " + e.getMessage());
+				System.err.println("Probleme de connection close : " + e.getMessage()+ " : marque of"+ p.getNom());
 			}
 		}
 

@@ -12,9 +12,13 @@ public class Recette {
 		Set<Ingredient> listIng = new HashSet<Ingredient>(chaine.length);
 
 		for (int i = 0; i < chaine.length; i++) {
-			chaine[i]=Nettoyage.Parentheses(Nettoyage.numerotations(Nettoyage.Parentheses(chaine[i])));
 			
-			listIng.add(new Ingredient(i, chaine[i].trim()));
+			String chaine1 = Nettoyage.Parentheses(chaine[i]);
+			String chaine2 = Nettoyage.Pourcentage(chaine1);
+			String chaine3 = Nettoyage.Numerotations(chaine2);
+			
+			
+			listIng.add(new Ingredient(i, chaine3.trim()));
 		}
 
 		return listIng;

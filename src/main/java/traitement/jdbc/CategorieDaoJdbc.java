@@ -60,7 +60,7 @@ public class CategorieDaoJdbc implements CategorieDao {
 				if (connection != null)
 					connection.close();
 			} catch (SQLException e) {
-				System.err.println("Probleme de connection close : " + e.getMessage());
+				System.err.println("Probleme de connection close : " + e.getMessage() + " : categorie of"+ p.getNom());
 			}
 		}
 	}

@@ -9,6 +9,10 @@ import org.apache.commons.io.FileUtils;
 
 import traitement.entity.Produit;
 
+/**
+ * @author helvin
+ * lecture de fichier et separation en lignes.
+ */
 public class TraitementFichier {
 
 	public static ArrayList<Produit> lire() {

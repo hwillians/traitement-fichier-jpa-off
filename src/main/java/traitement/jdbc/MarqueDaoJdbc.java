@@ -24,7 +24,7 @@ public class MarqueDaoJdbc implements MarqueDao {
 			ResultSet resultat = canal.executeQuery("select * from Marque");
 
 			while (resultat.next()) {
-				ListeMrq.add(new Marque(resultat.getInt("id"), resultat.getString("nom")));
+				ListeMrq.add(new Marque(resultat.getString("nom")));
 			}
 			resultat.close();
 			canal.close();
@@ -43,16 +43,22 @@ public class MarqueDaoJdbc implements MarqueDao {
 	}
 
 	@Override
-	public void insert(Produit p) {
+	public void insert(Produit prod) {
 		Connection connection = null;
 		try {
 			connection = Connecter.getConnection();
 			Statement canal = connection.createStatement();
-			canal.executeUpdate("Insert into marque (nom) "
-					+ "SELECT '" + p.getMarque() + "'"
-					+ "WHERE not exists (select * from marque "
-					+ "where marque.nom like '" 
-					+ p.getMarque() + "')");
+			canal.executeUpdate("Insert into marque (nom) " + "SELECT '" + prod.getMarque().getNom() + "'"
+					+ "WHERE not exists (select * from marque " + "where marque.nom like '" + prod.getMarque().getNom()
+					+ "')");
+
+			ResultSet resultat = canal
+					.executeQuery("SELECT * FROM marque WHERE NOM='" + prod.getMarque().getNom() + "'");
+			if (resultat.next()) {
+				prod.getMarque().setId(resultat.getInt("id"));
+			}
+
+			resultat.close();
 
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());
@@ -61,7 +67,8 @@ public class MarqueDaoJdbc implements MarqueDao {
 				if (connection != null)
 					connection.close();
 			} catch (SQLException e) {
-				System.err.println("Probleme de connection close : " + e.getMessage()+ " : marque of"+ p.getNom());
+				System.err
+						.println("Probleme de connection close : " + e.getMessage() + " : marque of " + prod.getNom());
 			}
 		}
 

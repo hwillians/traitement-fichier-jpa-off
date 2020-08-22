@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * @author helvin
+ * crée une connection avec las base de données.
+ */
 public class Connecter {
 	public static Connection getConnection() {
 		ResourceBundle db = ResourceBundle.getBundle("database");

@@ -24,7 +24,7 @@ public class IngredientDaoJdbc implements IngredientDao {
 			ResultSet resultat = canal.executeQuery("select * from ingredient");
 
 			while (resultat.next()) {
-				ListeIng.add(new Ingredient(resultat.getInt("id"), resultat.getString("nom")));
+				ListeIng.add(new Ingredient(resultat.getString("nom")));
 			}
 			resultat.close();
 			canal.close();
@@ -43,22 +43,41 @@ public class IngredientDaoJdbc implements IngredientDao {
 	}
 
 	@Override
-	public void insert(Produit p) {
+	public void insert(Produit prod) {
 		Connection connection = null;
 		try {
 			connection = Connecter.getConnection();
 			Statement canal = connection.createStatement();
 
-			for (Ingredient ing : p.getIngredients()) {
+			for (Ingredient ing : prod.getIngredients()) {
 
 				canal.executeUpdate("Insert into ingredient (nom)" + "SELECT '" + ing.getNom() + "'"
 						+ "WHERE not exists (select * from ingredient " + "where ingredient.nom like '" + ing.getNom()
 						+ "')");
 
+				ResultSet resultat = canal.executeQuery("SELECT * FROM INGREDIENT WHERE NOM='" + ing.getNom() + "'");
+				if (resultat.next()) {
+					ing.setId(resultat.getInt("id"));
+				}
+
+				// Creation du lien entre le produit et l'ingrédient
+				ResultSet res1 = canal.executeQuery(
+						"SELECT * FROM COMPO_ING WHERE ID_PRO_ING=" + prod.getId() + " AND ID_ING=" + ing.getId());
+
+				// Si le lien n'existe pas on le créé
+				if (!res1.next()) {
+					canal.executeUpdate("INSERT INTO COMPO_ING (ID_PRO_ING, ID_ING) VALUES (" + prod.getId() + ", "
+							+ ing.getId() + ")");
+				}
+
+				res1.close();
+				resultat.close();
 			}
+			canal.close();
 
 		} catch (Exception e) {
-			System.err.println("Erreur d'éxecution : " + e.getMessage()+ p.getIngredients() + " : ingredient of"+ p.getNom());
+			System.err.println("Erreur d'éxecution : " + e.getMessage() + prod.getIngredients() + " : ingredient of "
+					+ prod.getNom());
 		} finally {
 			try {
 				if (connection != null)

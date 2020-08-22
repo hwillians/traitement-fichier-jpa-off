@@ -1,22 +1,30 @@
 package traitement.outils;
 
-
-import java.util.Set;
-
-
+import java.util.ArrayList;
+import traitement.entity.Additif;
+import traitement.entity.Allergene;
+import traitement.entity.Categorie;
 import traitement.entity.Ingredient;
+import traitement.entity.Marque;
 import traitement.entity.Produit;
 
+
+/**
+ * @author helvin
+ * Separe une ligne et insere les morceaux dans un produit pour le créer.
+ */
+
 public class Separer {
+	
 	public static Produit Separateur(String chaine) {
 
 		String[] chaines = chaine.split("\\|");
-		int id = 0;
+
 		String categorie = chaines[0];
 		String marque = chaines[1];
 		String nom = chaines[2];
 		String grade = chaines[3];
-		Set<Ingredient> ingredients = Recette.SepIng(chaines[4]);
+		ArrayList<Ingredient> ingredients = Recette.SepIng(chaines[4]);
 		double energie = Nutriment.extraire(chaines, 5);
 		double graisse = Nutriment.extraire(chaines, 6);
 		double sucre = Nutriment.extraire(chaines, 7);
@@ -39,13 +47,13 @@ public class Separer {
 		double iron = Nutriment.extraire(chaines, 24);
 		double fer = Nutriment.extraire(chaines, 25);
 		double betaCaro = Nutriment.extraire(chaines, 26);
-		double huilePalme =  chaines.length >= 28 ? Nutriment.extraire(chaines, 27):0.0;
-		Set<Ingredient> allergenes = chaines.length >= 29 ? Recette.SepIng(chaines[28]) : null;
-		Set<Ingredient> additifs = chaines.length >= 30 ? Recette.SepIng(chaines[29]) : null;
+		double huilePalme = chaines.length >= 28 ? Nutriment.extraire(chaines, 27) : 0.0;
+		ArrayList<Allergene> allergenes = chaines.length >= 29 ? Recette.SepAllergene(chaines[28]) : null;
+		ArrayList<Additif> additifs = chaines.length >= 30 ? Recette.SepAdditif(chaines[29]) : null;
 
-		Produit prod = new Produit(id, categorie, marque, nom, grade, ingredients, allergenes, additifs, energie,
-				graisse, sucre, fibre, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2, vitPp, vitB6, vitB9,
-				vitB12, ca, mg, iron, fer, betaCaro, huilePalme);
+		Produit prod = new Produit(new Categorie(categorie), new Marque(marque), nom, grade, ingredients, allergenes,
+				additifs, energie, graisse, sucre, fibre, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2,
+				vitPp, vitB6, vitB9, vitB12, ca, mg, iron, fer, betaCaro, huilePalme);
 		return prod;
 	}
 }

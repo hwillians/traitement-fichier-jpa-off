@@ -24,7 +24,7 @@ public class CategorieDaoJdbc implements CategorieDao {
 			ResultSet resultat = canal.executeQuery("select * from categorie");
 
 			while (resultat.next()) {
-				ListeCat.add(new Categorie(resultat.getInt("id"), resultat.getString("nom")));
+				ListeCat.add(new Categorie(resultat.getString("nom")));
 			}
 			resultat.close();
 			canal.close();
@@ -43,16 +43,22 @@ public class CategorieDaoJdbc implements CategorieDao {
 	}
 
 	@Override
-	public void insert(Produit p) {
+	public void insert(Produit prod) {
 		Connection connection = null;
 		try {
 			connection = Connecter.getConnection();
 			Statement canal = connection.createStatement();
-			canal.executeUpdate("Insert into categorie (nom)"
-					+"SELECT '"+p.getCategorie()+"'"
-					+"WHERE not exists (select * from categorie "
-					+ "where categorie.nom like '"+p.getCategorie()+"')");
-			
+			canal.executeUpdate("Insert into categorie (nom)" + "SELECT '" + prod.getCategorie().getNom() + "'"
+					+ "WHERE not exists (select * from categorie " + "where categorie.nom like '"
+					+ prod.getCategorie().getNom() + "')");
+
+			ResultSet resultat = canal
+					.executeQuery("SELECT * FROM CATEGORIE WHERE NOM='" + prod.getCategorie().getNom() + "'");
+			if (resultat.next()) {
+				prod.getCategorie().setId(resultat.getInt("id"));
+			}
+			resultat.close();
+
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());
 		} finally {
@@ -60,7 +66,8 @@ public class CategorieDaoJdbc implements CategorieDao {
 				if (connection != null)
 					connection.close();
 			} catch (SQLException e) {
-				System.err.println("Probleme de connection close : " + e.getMessage() + " : categorie of"+ p.getNom());
+				System.err.println(
+						"Probleme de connection close : " + e.getMessage() + " : categorie of" + prod.getNom());
 			}
 		}
 	}

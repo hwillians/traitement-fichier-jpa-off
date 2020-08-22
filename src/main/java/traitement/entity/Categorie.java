@@ -16,9 +16,8 @@ public class Categorie {
 	 * @param id
 	 * @param nom
 	 */
-	public Categorie(Integer id, String nom) {
+	public Categorie(String nom) {
 		super();
-		this.id = id;
 		this.nom = nom;
 	}
 

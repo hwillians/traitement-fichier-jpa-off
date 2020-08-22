@@ -6,10 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import traitement.dao.AdditifDao;
 import traitement.entity.Additif;
-import traitement.entity.Ingredient;
 import traitement.entity.Produit;
 import traitement.outils.Connecter;
 
@@ -25,7 +23,7 @@ public class AdditifDaoJdbc implements AdditifDao {
 			ResultSet resultat = canal.executeQuery("select * from additif");
 
 			while (resultat.next()) {
-				ListeAddi.add(new Additif(resultat.getInt("id"), resultat.getString("nom")));
+				ListeAddi.add(new Additif(resultat.getString("nom")));
 			}
 			resultat.close();
 			canal.close();
@@ -44,23 +42,40 @@ public class AdditifDaoJdbc implements AdditifDao {
 	}
 
 	@Override
-	public void insert(Produit p) {
+	public void insert(Produit prod) {
 		Connection connection = null;
 		try {
 			connection = Connecter.getConnection();
 			Statement canal = connection.createStatement();
-			
-			if(p.getAdditifs() != null) {
-			for(Ingredient a : p.getAdditifs()) {
-			 canal.executeUpdate("Insert into additif (nom)"
-					+"SELECT '"+a.getNom()+"'"
-					+"WHERE not exists (select * from additif "
-					+ "where additif.nom like '"+a.getNom()+"')");
+			if (prod.getAdditifs() != null) {
+				for (Additif a : prod.getAdditifs()) {
+					canal.executeUpdate("Insert into additif (nom)" + "SELECT '" + a.getNom() + "'"
+							+ "WHERE not exists (select * from additif " + "where additif.nom like '" + a.getNom()
+							+ "')");
+
+					ResultSet resultat = canal.executeQuery("SELECT * FROM ADDITIF WHERE NOM='" + a.getNom() + "'");
+					if (resultat.next()) {
+						a.setId(resultat.getInt("id"));
+					}
+
+					// Creation du lien entre le produit et l'ingrédient
+					ResultSet res1 = canal.executeQuery(
+							"SELECT * FROM COMPO_ADDI WHERE ID_PRO_AD=" + prod.getId() + " AND ID_ADDI=" + a.getId());
+
+					// Si le lien n'existe pas on le créé
+					if (!res1.next()) {
+						canal.executeUpdate("INSERT INTO COMPO_ADDI (ID_PRO_AD, ID_ADDI) VALUES (" + prod.getId() + ", "
+								+ a.getId() + ")");
+					}
+
+					res1.close();
+					resultat.close();
+				}
+				canal.close();
 			}
-			}
-		
+
 		} catch (Exception e) {
-			System.err.println("Erreur d'éxecution : " + e.getMessage()+ " : additif of"+ p.getNom());
+			System.err.println("Erreur d'éxecution : " + e.getMessage() + " : additif of" + prod.getNom());
 		} finally {
 			try {
 				if (connection != null)

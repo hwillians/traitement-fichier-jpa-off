@@ -2,68 +2,77 @@
  * 
  */
 package traitement.entity;
-import java.util.Set;
+
+import java.util.ArrayList;
 
 /**
  * @author helvin
  *
  */
 public class Produit {
-
-	Integer id;
-	String categorie;
-	String marque;
-	String nom;
-	String grade;
-	Set<Ingredient> ingredients;
-	Set<Ingredient> allergenes;
-	Set<Ingredient> additifs;
+	
+	//id
+	private Integer id;
+	// Categorie
+	private Categorie categorie;
+	//marque
+	private Marque marque;
+	//nom
+	private String nom;
+	// Nutrition Grade Fr
+	private String grade;
+	// Liste d'ingredients
+	private ArrayList<Ingredient> ingredients;
+	// Liste d'allergènes
+	private ArrayList<Allergene> allergenes;
+	// Liste d'additifs
+	private ArrayList<Additif> additifs;
 	// energie pour 100g
-	double energie;
+	private double energie;
 	// graisse100g
-	double graisse;
+	private double graisse;
 	// sucres100g
-	double sucre;
-	// fibres100g
-	double fibre;
+	private double sucre;
+	// fibres100g∑
+	private double fibre;
 	// proteines100g
-	double proteine;
+	private double proteine;
 	// sel100g
-	double sel;
+	private double sel;
 	// vitA100g
-	double vitA;
+	private double vitA;
 	// vitD100g
-	double vitD;
+	private double vitD;
 	// vitE100g
-	double vitE;
+	private double vitE;
 	// vitK100g
-	double vitK;
+	private double vitK;
 	// vitC100g
-	double vitC;
+	private double vitC;
 	// vitB1100g
-	double vitB1;
+	private double vitB1;
 	// vitB2100g
-	double vitB2;
+	private double vitB2;
 	// vitPP100g
-	double vitPp;
+	private double vitPp;
 	// vitB6100g
-	double vitB6;
+	private double vitB6;
 	// vitB9100g
-	double vitB9;
+	private double vitB9;
 	// vitB12100g
-	double vitB12;
+	private double vitB12;
 	// calcium100g
-	double ca;
+	private double ca;
 	// magnesium100g
-	double mg;
+	private double mg;
 	// iron100g
-	double iron;
+	private double iron;
 	// fer100g
-	double fer;
+	private double fer;
 	// betaCarotene100g
-	double betaCaro;
+	private double betaCaro;
 	// presenceHuilePalme
-	double huilePalme;
+	private double huilePalme;
 
 	/**
 	 * @param id
@@ -98,13 +107,11 @@ public class Produit {
 	 * @param betaCaro
 	 * @param huilePalme
 	 */
-	public Produit(Integer id, String categorie, String marque, String nom, String grade, Set<Ingredient> ingredients,
-			Set<Ingredient> allergenes, Set<Ingredient> additifs, double energie, double graisse, double sucre,
+	public Produit(Categorie categorie, Marque marque, String nom, String grade, ArrayList<Ingredient> ingredients,
+			ArrayList<Allergene> allergenes, ArrayList<Additif> additifs, double energie, double graisse, double sucre,
 			double fibre, double proteine, double sel, double vitA, double vitD, double vitE, double vitK, double vitC,
 			double vitB1, double vitB2, double vitPp, double vitB6, double vitB9, double vitB12, double ca, double mg,
 			double iron, double fer, double betaCaro, double huilePalme) {
-		super();
-		this.id = id;
 		this.categorie = categorie;
 		this.marque = marque;
 		this.nom = nom;
@@ -137,8 +144,6 @@ public class Produit {
 		this.huilePalme = huilePalme;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "Produit [id=" + id + ", categorie=" + categorie + ", marque=" + marque + ", nom=" + nom + ", grade="
@@ -162,8 +167,6 @@ public class Produit {
 				+ super.toString() + "]";
 	}
 
-
-
 	/**
 	 * @return the id
 	 */
@@ -179,11 +182,6 @@ public class Produit {
 	}
 
 	/**
-	 * @return the idCat
-	 */
-
-
-	/**
 	 * @return the nom
 	 */
 	public String getNom() {
@@ -193,28 +191,28 @@ public class Produit {
 	/**
 	 * @return the categorie
 	 */
-	public String getCategorie() {
+	public Categorie getCategorie() {
 		return categorie;
 	}
 
 	/**
 	 * @param categorie the categorie to set
 	 */
-	public void setCategorie(String categorie) {
+	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
 
 	/**
 	 * @return the marque
 	 */
-	public String getMarque() {
+	public Marque getMarque() {
 		return marque;
 	}
 
 	/**
 	 * @param marque the marque to set
 	 */
-	public void setMarque(String marque) {
+	public void setMarque(Marque marque) {
 		this.marque = marque;
 	}
 
@@ -242,42 +240,42 @@ public class Produit {
 	/**
 	 * @return the ingredients
 	 */
-	public Set<Ingredient> getIngredients() {
+	public ArrayList<Ingredient> getIngredients() {
 		return ingredients;
 	}
 
 	/**
 	 * @param ingredients the ingredients to set
 	 */
-	public void setIngredients(Set<Ingredient> ingredients) {
+	public void setIngredients(ArrayList<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
 
 	/**
 	 * @return the allergenes
 	 */
-	public Set<Ingredient> getAllergenes() {
+	public ArrayList<Allergene> getAllergenes() {
 		return allergenes;
 	}
 
 	/**
 	 * @param allergenes the allergenes to set
 	 */
-	public void setAllergenes(Set<Ingredient> allergenes) {
+	public void setAllergenes(ArrayList<Allergene> allergenes) {
 		this.allergenes = allergenes;
 	}
 
 	/**
 	 * @return the additifs
 	 */
-	public Set<Ingredient> getAdditifs() {
+	public ArrayList<Additif> getAdditifs() {
 		return additifs;
 	}
 
 	/**
 	 * @param additifs the additifs to set
 	 */
-	public void setAdditifs(Set<Ingredient> additifs) {
+	public void setAdditifs(ArrayList<Additif> additifs) {
 		this.additifs = additifs;
 	}
 

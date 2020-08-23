@@ -36,14 +36,14 @@ public class IngredientDaoJpa {
 
 					// commit
 					em.getTransaction().commit();
-
+				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Ingredient> query1 = em.createQuery(
 							"SELECT i FROM Ingredient i WHERE i.nom = '" + ing.getNom() + "'", Ingredient.class);
 					Ingredient i = query1.getSingleResult();
 					Integer id = i.getId();
 					ing.setId(id);
-				}
+				
 			}
 
 		} catch (Exception e) {

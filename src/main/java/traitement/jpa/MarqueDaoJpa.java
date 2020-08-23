@@ -35,14 +35,14 @@ public class MarqueDaoJpa {
 
 					// commit
 					em.getTransaction().commit();
-
+				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Marque> query1 = em.createQuery(
 							"SELECT m FROM Marque m WHERE m.nom = '" + marque.getNom() + "'", Marque.class);
 					Marque m = query1.getSingleResult();
 					Integer id = m.getId();
 					marque.setId(id);
-				}
+				
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());

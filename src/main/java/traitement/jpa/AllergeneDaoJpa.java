@@ -35,18 +35,18 @@ public class AllergeneDaoJpa {
 
 					// commit
 					em.getTransaction().commit();
-
+				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Allergene> query1 = em.createQuery(
 							"SELECT a FROM Allergene a WHERE a.nom = '" + alle.getNom() + "'", Allergene.class);
 					Allergene a = query1.getSingleResult();
 					Integer id = a.getId();
 					alle.setId(id);
-				}
+				
 			}
 
 		} catch (Exception e) {
-			System.err.println("Erreur d'éxecution : " + e.getMessage());
+			System.err.println("Erreur d'éxecution : " + e.getMessage() + "in Allergene");
 		}
 
 	}

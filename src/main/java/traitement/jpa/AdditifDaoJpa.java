@@ -35,18 +35,18 @@ public class AdditifDaoJpa {
 
 					// commit
 					em.getTransaction().commit();
-
+				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Additif> query1 = em.createQuery(
 							"SELECT a FROM Additif a WHERE a.nom = '" + addi.getNom() + "'", Additif.class);
 					Additif a = query1.getSingleResult();
 					Integer id = a.getId();
 					addi.setId(id);
-				}
+				
 			}
 
 		} catch (Exception e) {
-			System.err.println("Erreur d'éxecution : " + e.getMessage());
+			System.err.println("Erreur d'éxecution : " + e.getMessage() + "In additif");
 		}
 
 	}

@@ -41,13 +41,16 @@ public class CategorieDaoJpa {
 					// commit
 					em.getTransaction().commit();
 
-					// récupére l’ID dans la BDD
-					TypedQuery<Categorie> query1 = em.createQuery(
-							"SELECT c FROM Categorie c WHERE c.nom = '" + cat.getNom() + "'", Categorie.class);
-					Categorie c = query1.getSingleResult();
-					Integer id = c.getId();
-					cat.setId(id);
 				}
+
+				// récupére l’ID dans la BDD
+				TypedQuery<Categorie> query1 = em
+						.createQuery("SELECT c FROM Categorie c WHERE c.nom = '" + cat.getNom() + "'", Categorie.class);
+				Categorie c = query1.getSingleResult();
+				Integer id = c.getId();
+				cat.setId(id);
+				System.out.println(id+"\n------------------------------" );
+
 
 			}
 

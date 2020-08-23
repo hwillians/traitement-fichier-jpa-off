@@ -37,7 +37,9 @@ public class ToBDD {
 			for (Additif addi : p.getAdditifs()) {
 				AdditifDaoJpa.insert(addi,factory,em);
 			}
+			System.out.println(p.getCategorie()+"\n------------------------------" );
 			ProduitDaoJpa.insert(p, factory, em);
+			
 		}
 		
 		

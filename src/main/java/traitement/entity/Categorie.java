@@ -3,8 +3,10 @@
  */
 package traitement.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +32,7 @@ public class Categorie {
 	@Column(name = "NOM", length = 250, nullable = false)
 	private String nom;
 
-	@OneToMany(mappedBy = "categorie")
+	@OneToMany(mappedBy = "categorie",cascade = CascadeType.ALL)
 	private Set<Produit> produits;
 
 	/**
@@ -46,6 +48,13 @@ public class Categorie {
 		this.nom = nom;
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return id + ", " + nom + ", [" + produits + "]";
+	}
+
 	/**
 	 * @return the id
 	 */

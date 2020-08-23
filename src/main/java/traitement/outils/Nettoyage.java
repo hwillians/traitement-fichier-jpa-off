@@ -40,6 +40,7 @@ public class Nettoyage {
  				.replaceAll(",,", ",")
  				.replaceAll("\\*", "")
  				.replaceAll("\\\\'", "\\'")
+ 				.replaceAll("\\'", "\\\\'")
  				.replaceAll("  ", " ");
 	}
 

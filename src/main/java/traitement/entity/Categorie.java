@@ -3,13 +3,23 @@
  */
 package traitement.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author helvin
  *
  */
+
+@Entity
+@Table(name = "CATEGORIE")
 public class Categorie {
 
+	@Id
 	private Integer id;
+	@Column(name = "NOM", length = 250, nullable = false)
 	private String nom;
 
 	/**

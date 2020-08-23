@@ -5,73 +5,153 @@ package traitement.entity;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * @author helvin
  *
  */
+@Entity
+@Table
 public class Produit {
-	
-	//id
+
+	@Id
 	private Integer id;
+	
 	// Categorie
+	@ManyToOne
+	@JoinColumn(name="ID_CAT")
 	private Categorie categorie;
-	//marque
+	
+	// marque
+	@ManyToOne
+	@JoinColumn(name="ID_MRQ")
 	private Marque marque;
-	//nom
+	@Column(name = "NOM", length = 250, nullable = false)
 	private String nom;
+
 	// Nutrition Grade Fr
+	@Column(name = "GRADE", length = 250, nullable = false)
 	private String grade;
+
 	// Liste d'ingredients
+	@ManyToMany
+	@JoinTable(name = "COMPO_ING",
+				joinColumns = @JoinColumn(name ="ID_PRO_ING"),
+				inverseJoinColumns = @JoinColumn(name ="ID_ING"))
 	private ArrayList<Ingredient> ingredients;
+	
 	// Liste d'allergènes
+	@ManyToMany
+	@JoinTable(name = "COMPO_ALLERG",
+				joinColumns = @JoinColumn(name ="ID_PRO_AL"),
+				inverseJoinColumns = @JoinColumn(name ="ID_ALLERG"))
 	private ArrayList<Allergene> allergenes;
+	
 	// Liste d'additifs
+	@ManyToMany
+	@JoinTable(name = "COMPO_ADDI",
+				joinColumns = @JoinColumn(name ="ID_PRO_AD"),
+				inverseJoinColumns = @JoinColumn(name ="ID_ADDI"))
 	private ArrayList<Additif> additifs;
-	// energie pour 100g
+
+	// Energie pour 100g
+	@Column(name = "ENERGIE", nullable = false)
 	private double energie;
-	// graisse100g
+	
+	// Graisse pour 100g
+	@Column(name = "GRAISSE", nullable = false)
 	private double graisse;
-	// sucres100g
+	
+	// Sucres pour 100g
+	@Column(name = "SUCRE", nullable = false)
 	private double sucre;
-	// fibres100g∑
+	
+	// Fibres pour 100g
+	@Column(name = "FIBRE", nullable = false)
 	private double fibre;
-	// proteines100g
+	
+	// Proteines pour 100g
+	@Column(name = "PROTEINE", nullable = false)
 	private double proteine;
-	// sel100g
+	
+	// Sel pour 100g
+	@Column(name = "SEL", nullable = false)
 	private double sel;
-	// vitA100g
+	
+	// Vitamine A pour 100g
+	@Column(name = "VITA", nullable = false)
 	private double vitA;
-	// vitD100g
+	
+	// Vitamine D pour 100g
+	@Column(name = "VITD", nullable = false)
 	private double vitD;
-	// vitE100g
+	
+	// Vitamine tE pour 100g
+	@Column(name = "VITE", nullable = false)
 	private double vitE;
-	// vitK100g
+	
+	// Vitamine K pour 100g
+	@Column(name = "VITK", nullable = false)
 	private double vitK;
-	// vitC100g
+	
+	// Vitamine C pour 100g
+	@Column(name = "VITC", nullable = false)
 	private double vitC;
-	// vitB1100g
+	
+	// Vitamine B1 pour 100g
+	@Column(name = "VITB1", nullable = false)
 	private double vitB1;
-	// vitB2100g
+	
+	// Vitamine B2 pour 100g
+	@Column(name = "VITB2", nullable = false)
 	private double vitB2;
-	// vitPP100g
+	
+	// Vitamine PP pour 100g
+	@Column(name = "VITPP", nullable = false)
 	private double vitPp;
-	// vitB6100g
+	
+	// Vitamine B6 pour 100g
+	@Column(name = "VITB6", nullable = false)
 	private double vitB6;
-	// vitB9100g
+	
+	// Vitamine B9 pour 100g
+	@Column(name = "VITB9", nullable = false)
 	private double vitB9;
-	// vitB12100g
+	
+	// Vitamine B12 pour 100g
+	@Column(name = "VITB12", nullable = false)
 	private double vitB12;
-	// calcium100g
+	
+	// Calcium pour 100g
+	@Column(name = "CA", nullable = false)
 	private double ca;
-	// magnesium100g
+	
+	// Magnesium pour 100g
+	@Column(name = "MG", nullable = false)
 	private double mg;
-	// iron100g
+	
+	// Iron pour 100g
+	@Column(name = "IRON", nullable = false)
 	private double iron;
-	// fer100g
+	
+	// Fer pour 100g
+	@Column(name = "FER", nullable = false)
 	private double fer;
-	// betaCarotene100g
+	
+	// Beta Carotene pour 100g
+	@Column(name = "BETACARO", nullable = false)
 	private double betaCaro;
-	// presenceHuilePalme
+	
+	// Presence d'Huile Palme
+	@Column(name = "HUILEPALME", nullable = false)
 	private double huilePalme;
 
 	/**

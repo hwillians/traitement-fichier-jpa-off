@@ -1,10 +1,20 @@
 package traitement.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /*
  * 
  */
-public class Additif  {
+
+@Entity
+@Table(name = "ADDITIF")
+public class Additif {
+	@Id
 	private Integer id;
+	@Column(name = "NOM", length = 250, nullable = false)
 	private String nom;
 
 	/**

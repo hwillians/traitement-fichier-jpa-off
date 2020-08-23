@@ -1,8 +1,17 @@
 package traitement.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ALLERGENE")
 public class Allergene {
 
+	@Id
 	private Integer id;
+	@Column(name = "NOM", length = 50, nullable = false)
 	private String nom;
 
 	/**

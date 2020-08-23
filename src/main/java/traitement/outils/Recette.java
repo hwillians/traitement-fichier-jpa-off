@@ -1,6 +1,8 @@
 package traitement.outils;
 
-import java.util.ArrayList;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import traitement.entity.Additif;
 import traitement.entity.Allergene;
@@ -15,10 +17,10 @@ public class Recette {
 	 * @param chaines d'ingredientes dans une ligne
 	 * @return liste d'ingredients.
 	 */
-	public static ArrayList<Ingredient> SepIng(String chaines) {
+	public static Set<Ingredient> SepIng(String chaines) {
 
 		String[] chaine = chaines.split("[\\-,;]");
-		ArrayList<Ingredient> listIng = new ArrayList<Ingredient>(chaine.length);
+		Set<Ingredient> listIng = new HashSet<Ingredient>(chaine.length);
 
 		for (int i = 0; i < chaine.length; i++) {
 
@@ -36,10 +38,10 @@ public class Recette {
 	 * @param chaines d'allergènes dans une ligne.
 	 * @return liste d'allergènes
 	 */
-	public static ArrayList<Allergene> SepAllergene(String chaines) {
+	public static Set<Allergene> SepAllergene(String chaines) {
 
 		String[] chaine = chaines.split("[\\-,;]");
-		ArrayList<Allergene> listAll = new ArrayList<Allergene>(chaine.length);
+		Set<Allergene> listAll = new HashSet<Allergene>(chaine.length);
 
 		for (int i = 0; i < chaine.length; i++) {
 
@@ -57,10 +59,10 @@ public class Recette {
 	 * @param chaines d'allergenes dans une ligne
 	 * @return liste d'additif.
 	 */
-	public static ArrayList<Additif> SepAdditif(String chaines) {
+	public static Set<Additif> SepAdditif(String chaines) {
 
 		String[] chaine = chaines.split("[\\-,;]");
-		ArrayList<Additif> listAdd = new ArrayList<Additif>(chaine.length);
+		HashSet<Additif> listAdd = new HashSet<Additif>(chaine.length);
 
 		for (int i = 0; i < chaine.length; i++) {
 

@@ -1,8 +1,13 @@
 package traitement.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -10,27 +15,28 @@ import javax.persistence.Table;
 public class Allergene {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name = "NOM", length = 50, nullable = false)
 	private String nom;
+	@ManyToMany(mappedBy = "allergenes")
+	private Set<Produit> produits;
 
 	/**
-	 * @param id
-	 * @param nom
+	 * 
 	 */
-
-	@Override
-	public String toString() {
-		return nom;
+	public Allergene() {
 	}
+	
 
 	/**
-	 * @param id
 	 * @param nom
 	 */
 	public Allergene(String nom) {
 		this.nom = nom;
 	}
+
+
 
 	/**
 	 * @return the id
@@ -59,5 +65,20 @@ public class Allergene {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+
+	/**
+	 * @return the produits
+	 */
+	public Set<Produit> getProduits() {
+		return produits;
+	}
+
+	/**
+	 * @param produits the produits to set
+	 */
+	public void setProduits(Set<Produit> produits) {
+		this.produits = produits;
+	}
+
 
 }

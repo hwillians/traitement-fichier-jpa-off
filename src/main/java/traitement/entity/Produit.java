@@ -3,10 +3,12 @@
  */
 package traitement.entity;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,21 +21,24 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table
+@Table(name = "PRODUIT")
 public class Produit {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	// Categorie
 	@ManyToOne
-	@JoinColumn(name="ID_CAT")
+	@JoinColumn(name = "ID_cat")
 	private Categorie categorie;
-	
+
 	// marque
 	@ManyToOne
-	@JoinColumn(name="ID_MRQ")
+	@JoinColumn(name = "ID_mrq")
 	private Marque marque;
+
+	// nom
 	@Column(name = "NOM", length = 250, nullable = false)
 	private String nom;
 
@@ -43,116 +48,117 @@ public class Produit {
 
 	// Liste d'ingredients
 	@ManyToMany
-	@JoinTable(name = "COMPO_ING",
-				joinColumns = @JoinColumn(name ="ID_PRO_ING"),
-				inverseJoinColumns = @JoinColumn(name ="ID_ING"))
-	private ArrayList<Ingredient> ingredients;
-	
+	@JoinTable(name = "COMPO_ING", joinColumns = @JoinColumn(name = "ID_PRO_ING"), inverseJoinColumns = @JoinColumn(name = "ID_ING"))
+	private Set<Ingredient> ingredients;
+
 	// Liste d'allergènes
 	@ManyToMany
-	@JoinTable(name = "COMPO_ALLERG",
-				joinColumns = @JoinColumn(name ="ID_PRO_AL"),
-				inverseJoinColumns = @JoinColumn(name ="ID_ALLERG"))
-	private ArrayList<Allergene> allergenes;
-	
+	@JoinTable(name = "COMPO_ALLERG", joinColumns = @JoinColumn(name = "ID_PRO_AL"), inverseJoinColumns = @JoinColumn(name = "ID_ALLERG"))
+	private Set<Allergene> allergenes;
+
 	// Liste d'additifs
 	@ManyToMany
-	@JoinTable(name = "COMPO_ADDI",
-				joinColumns = @JoinColumn(name ="ID_PRO_AD"),
-				inverseJoinColumns = @JoinColumn(name ="ID_ADDI"))
-	private ArrayList<Additif> additifs;
+	@JoinTable(name = "COMPO_ADDI", joinColumns = @JoinColumn(name = "ID_PRO_AD"), inverseJoinColumns = @JoinColumn(name = "ID_ADDI"))
+	private Set<Additif> additifs;
 
 	// Energie pour 100g
 	@Column(name = "ENERGIE", nullable = false)
 	private double energie;
-	
+
 	// Graisse pour 100g
 	@Column(name = "GRAISSE", nullable = false)
 	private double graisse;
-	
+
 	// Sucres pour 100g
 	@Column(name = "SUCRE", nullable = false)
 	private double sucre;
-	
+
 	// Fibres pour 100g
 	@Column(name = "FIBRE", nullable = false)
 	private double fibre;
-	
+
 	// Proteines pour 100g
 	@Column(name = "PROTEINE", nullable = false)
 	private double proteine;
-	
+
 	// Sel pour 100g
 	@Column(name = "SEL", nullable = false)
 	private double sel;
-	
+
 	// Vitamine A pour 100g
 	@Column(name = "VITA", nullable = false)
 	private double vitA;
-	
+
 	// Vitamine D pour 100g
 	@Column(name = "VITD", nullable = false)
 	private double vitD;
-	
+
 	// Vitamine tE pour 100g
 	@Column(name = "VITE", nullable = false)
 	private double vitE;
-	
+
 	// Vitamine K pour 100g
 	@Column(name = "VITK", nullable = false)
 	private double vitK;
-	
+
 	// Vitamine C pour 100g
 	@Column(name = "VITC", nullable = false)
 	private double vitC;
-	
+
 	// Vitamine B1 pour 100g
 	@Column(name = "VITB1", nullable = false)
 	private double vitB1;
-	
+
 	// Vitamine B2 pour 100g
 	@Column(name = "VITB2", nullable = false)
 	private double vitB2;
-	
+
 	// Vitamine PP pour 100g
 	@Column(name = "VITPP", nullable = false)
 	private double vitPp;
-	
+
 	// Vitamine B6 pour 100g
 	@Column(name = "VITB6", nullable = false)
 	private double vitB6;
-	
+
 	// Vitamine B9 pour 100g
 	@Column(name = "VITB9", nullable = false)
 	private double vitB9;
-	
+
 	// Vitamine B12 pour 100g
 	@Column(name = "VITB12", nullable = false)
 	private double vitB12;
-	
+
 	// Calcium pour 100g
 	@Column(name = "CA", nullable = false)
 	private double ca;
-	
+
 	// Magnesium pour 100g
 	@Column(name = "MG", nullable = false)
 	private double mg;
-	
+
 	// Iron pour 100g
 	@Column(name = "IRON", nullable = false)
 	private double iron;
-	
+
 	// Fer pour 100g
 	@Column(name = "FER", nullable = false)
 	private double fer;
-	
+
 	// Beta Carotene pour 100g
 	@Column(name = "BETACARO", nullable = false)
 	private double betaCaro;
-	
+
 	// Presence d'Huile Palme
 	@Column(name = "HUILEPALME", nullable = false)
 	private double huilePalme;
+
+	/**
+	 * 
+	 */
+	public Produit() {
+
+	}
 
 	/**
 	 * @param id
@@ -187,8 +193,8 @@ public class Produit {
 	 * @param betaCaro
 	 * @param huilePalme
 	 */
-	public Produit(Categorie categorie, Marque marque, String nom, String grade, ArrayList<Ingredient> ingredients,
-			ArrayList<Allergene> allergenes, ArrayList<Additif> additifs, double energie, double graisse, double sucre,
+	public Produit(Categorie categorie, Marque marque, String nom, String grade, Set<Ingredient> ingredients,
+			Set<Allergene> allergenes, Set<Additif> additifs, double energie, double graisse, double sucre,
 			double fibre, double proteine, double sel, double vitA, double vitD, double vitE, double vitK, double vitC,
 			double vitB1, double vitB2, double vitPp, double vitB6, double vitB9, double vitB12, double ca, double mg,
 			double iron, double fer, double betaCaro, double huilePalme) {
@@ -320,42 +326,42 @@ public class Produit {
 	/**
 	 * @return the ingredients
 	 */
-	public ArrayList<Ingredient> getIngredients() {
+	public Set<Ingredient> getIngredients() {
 		return ingredients;
 	}
 
 	/**
 	 * @param ingredients the ingredients to set
 	 */
-	public void setIngredients(ArrayList<Ingredient> ingredients) {
+	public void setIngredients(Set<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
 
 	/**
 	 * @return the allergenes
 	 */
-	public ArrayList<Allergene> getAllergenes() {
+	public Set<Allergene> getAllergenes() {
 		return allergenes;
 	}
 
 	/**
 	 * @param allergenes the allergenes to set
 	 */
-	public void setAllergenes(ArrayList<Allergene> allergenes) {
+	public void setAllergenes(Set<Allergene> allergenes) {
 		this.allergenes = allergenes;
 	}
 
 	/**
 	 * @return the additifs
 	 */
-	public ArrayList<Additif> getAdditifs() {
+	public Set<Additif> getAdditifs() {
 		return additifs;
 	}
 
 	/**
 	 * @param additifs the additifs to set
 	 */
-	public void setAdditifs(ArrayList<Additif> additifs) {
+	public void setAdditifs(Set<Additif> additifs) {
 		this.additifs = additifs;
 	}
 

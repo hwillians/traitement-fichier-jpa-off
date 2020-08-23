@@ -1,6 +1,8 @@
 package traitement.outils;
 
-import java.util.ArrayList;
+
+import java.util.Set;
+
 import traitement.entity.Additif;
 import traitement.entity.Allergene;
 import traitement.entity.Categorie;
@@ -24,7 +26,7 @@ public class Separer {
 		String marque = chaines[1];
 		String nom = chaines[2];
 		String grade = chaines[3];
-		ArrayList<Ingredient> ingredients = Recette.SepIng(chaines[4]);
+		Set<Ingredient> ingredients = Recette.SepIng(chaines[4]);
 		double energie = Nutriment.extraire(chaines, 5);
 		double graisse = Nutriment.extraire(chaines, 6);
 		double sucre = Nutriment.extraire(chaines, 7);
@@ -48,8 +50,8 @@ public class Separer {
 		double fer = Nutriment.extraire(chaines, 25);
 		double betaCaro = Nutriment.extraire(chaines, 26);
 		double huilePalme = chaines.length >= 28 ? Nutriment.extraire(chaines, 27) : 0.0;
-		ArrayList<Allergene> allergenes = chaines.length >= 29 ? Recette.SepAllergene(chaines[28]) : null;
-		ArrayList<Additif> additifs = chaines.length >= 30 ? Recette.SepAdditif(chaines[29]) : null;
+		Set<Allergene> allergenes = chaines.length >= 29 ? Recette.SepAllergene(chaines[28]) : null;
+		Set<Additif> additifs = chaines.length >= 30 ? Recette.SepAdditif(chaines[29]) : null;
 
 		Produit prod = new Produit(new Categorie(categorie), new Marque(marque), nom, grade, ingredients, allergenes,
 				additifs, energie, graisse, sucre, fibre, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2,

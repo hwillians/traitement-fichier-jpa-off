@@ -1,36 +1,48 @@
 package traitement.serv;
 
 import java.util.ArrayList;
-import traitement.entity.Produit;
-import traitement.jdbc.AdditifDaoJdbc;
-import traitement.jdbc.AllergeneDaoJdbc;
-import traitement.jdbc.CategorieDaoJdbc;
-import traitement.jdbc.IngredientDaoJdbc;
 
-import traitement.jdbc.MarqueDaoJpa;
-import traitement.jdbc.ProduitDaoJdbc;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
+import traitement.entity.Additif;
+import traitement.entity.Allergene;
+import traitement.entity.Ingredient;
+import traitement.entity.Produit;
+import traitement.jpa.AdditifDaoJpa;
+import traitement.jpa.AllergeneDaoJpa;
+import traitement.jpa.CategorieDaoJpa;
+import traitement.jpa.IngredientDaoJpa;
+import traitement.jpa.MarqueDaoJpa;
+import traitement.jpa.ProduitDaoJpa;
+
+
 
 /**
  * @author helvin insère les produits dans la base de données.
  */
 public class ToBDD {
 
-	public static void insertion(ArrayList<Produit> produits) {
-		MarqueDaoJpa mrq = new MarqueDaoJpa();
-//		CategorieDaoJdbc cat = new CategorieDaoJdbc();
-//		IngredientDaoJdbc ing = new IngredientDaoJdbc();
-//		AdditifDaoJdbc add = new AdditifDaoJdbc();
-//		AllergeneDaoJdbc all = new AllergeneDaoJdbc();
-//		ProduitDaoJdbc prod = new ProduitDaoJdbc();
+	public static void insertion(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
 
 		for (Produit p : produits) {
-			mrq.insert(p);
-//			cat.insert(p);
-//			prod.insert(p);
-//			ing.insert(p);
-//			add.insert(p);
-//			all.insert(p);
-
+			MarqueDaoJpa.insert(p.getMarque(), factory, em);
+			CategorieDaoJpa.insert(p.getCategorie(), factory, em);
+			for (Ingredient ing : p.getIngredients()) {
+				IngredientDaoJpa.insert(ing,factory,em);
+			}
+			for (Allergene alle : p.getAllergenes()) {
+				AllergeneDaoJpa.insert(alle,factory,em);
+			}
+			for (Additif addi : p.getAdditifs()) {
+				AdditifDaoJpa.insert(addi,factory,em);
+			}
+			ProduitDaoJpa.insert(p, factory, em);
 		}
+		
+		
+		// ferme la transaction
+		em.close();
+		factory.close();
 	}
 }

@@ -1,50 +1,62 @@
 package traitement.jpa;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import traitement.entity.Marque;
+import traitement.entity.Produit;
 
 public class MarqueDaoJpa {
 
-	public static void insert(Marque marque, EntityManagerFactory factory, EntityManager em) {
+	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
+		HashSet<String> myNomMarques = new HashSet<>();
+		for (Produit p : produits) {
+
+			myNomMarques.add(p.getMarque().getNom().trim());
+
+		}
 
 		try {
 
-			Marque newMrq = new Marque();
-			String myMarque = marque.getNom().toLowerCase();
+			// Recupère les Marque qui existent dans la BDD
+			String query = "SELECT m FROM Marque m";
+			TypedQuery<Marque> q = em.createQuery(query, Marque.class);
 
-			if (em != null) {
-				String query = "SELECT m FROM Marque m";
-				TypedQuery<Marque> q = em.createQuery(query, Marque.class);
-				List<String> nomMarques = new ArrayList<>();
+			// Cree un list avec les noms des Marque de la BDD
+			List<String> nomMarques = new ArrayList<>();
+			for (Marque m : q.getResultList()) {
+				nomMarques.add(m.getNom());
+			}
 
-				for (Marque m : q.getResultList()) {
-					nomMarques.add(m.getNom());
-				}
-
-				if (!nomMarques.contains(myMarque)) {
-					newMrq.setNom(myMarque);
-
+			for (String m : myNomMarques) {
+				// Si la marque n'existe pas on l'ajoute dans la BDD
+				if (!nomMarques.contains(m)) {
+					Marque newMrq = new Marque();
+					newMrq.setNom(m);
 					// ouvre transaction
-					em.getTransaction().begin();
-
+					EntityManager em2 = factory.createEntityManager();
+					em2.getTransaction().begin();
 					// ajoute dans la BDD
-					em.persist(newMrq);
-
+					em2.persist(newMrq);
 					// commit
-					em.getTransaction().commit();
+					em2.getTransaction().commit();
+					// ferme la transaction
+					em2.close();
 				}
-					// récupére l’ID dans la BDD
-					TypedQuery<Marque> query1 = em.createQuery(
-							"SELECT m FROM Marque m WHERE m.nom = '" + myMarque + "'", Marque.class);
+			}
+			// récupére l’ID dans la BDD
+			for (Produit p : produits) {
+				TypedQuery<Marque> query1 = em.createQuery(
+						"SELECT m FROM Marque m WHERE m.nom = '" + p.getMarque().getNom().trim() + "'", Marque.class);
+				if (query1.getResultList().size() > 0) {
 					Marque m = query1.getResultList().get(0);
 					Integer id = m.getId();
-					marque.setId(id);
-				
-				
+					p.getMarque().setId(id);
+				}
+
 			}
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());

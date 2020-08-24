@@ -22,31 +22,22 @@ public class Nettoyage {
 
 	/**
 	 * suppresion des charactères parasites et des erreurs de frappe.
+	 * 
 	 * @param lignes
 	 * @return chaine après traitement.
 	 */
 	public static String Remplacer(List<String> lignes, int i) {
 
-		return lignes.get(i)
-				.replaceAll("_", " ")
- 				.replaceAll("\\|’", "l\'")
- 				.replaceAll("/' ", "/'")
- 				.replaceAll("\\|ac", "lac")
- 				.replaceAll("acty\\|ate", "actylate")
- 				.replaceAll("\\|as", "las")
- 				.replaceAll("\\|ant", "ant")
- 				.replaceAll("\\\\is\\\\", "is")
- 				.replaceAll("\\|%", "%")
- 				.replaceAll(",,", ",")
- 				.replaceAll("\\*", "")
- 				.replaceAll("\\\\'", "\\'")
- 				.replaceAll("  ", " ")
- 				.replace("'"," ");
+		return lignes.get(i).replaceAll("_", " ").replaceAll("\\|’", "l\'").replaceAll("/' ", "/'")
+				.replaceAll("\\|ac", "lac").replaceAll("acty\\|ate", "actylate").replaceAll("\\|as", "las")
+				.replaceAll("\\|ant", "ant").replaceAll("\\\\is\\\\", "is").replaceAll("\\|%", "%")
+				.replaceAll(",,", ",").replaceAll("\\*", "").replaceAll("\\\\'", "\\'").replaceAll("  ", " ")
+				.replace("'", " ").toLowerCase();
 	}
 
-	
 	/**
 	 * Pour supprimer des Parentheses
+	 * 
 	 * @param chaine
 	 * @return chaine après traitement.
 	 */
@@ -56,6 +47,7 @@ public class Nettoyage {
 
 	/**
 	 * Pour supprimer des pourcentages
+	 * 
 	 * @param chaine
 	 * @return
 	 */
@@ -65,6 +57,7 @@ public class Nettoyage {
 
 	/**
 	 * Suppression des numérotations
+	 * 
 	 * @param chaine
 	 * @return
 	 */

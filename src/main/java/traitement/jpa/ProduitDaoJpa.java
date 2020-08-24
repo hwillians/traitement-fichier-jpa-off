@@ -1,35 +1,42 @@
 package traitement.jpa;
 
-
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
+import traitement.entity.Ingredient;
 import traitement.entity.Produit;
-
 
 public class ProduitDaoJpa {
 
-	public static void insert(Produit prod, EntityManagerFactory factory, EntityManager em) {
-		
+	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
+
 		try {
-			Produit newProd = new Produit();
-			String myProd = prod.getNom().toLowerCase();
 
-			if (em != null) {
-				String query = "SELECT p FROM Produit p";
-				TypedQuery<Produit> q = em.createQuery(query, Produit.class);
-				List<String> nomProduits = new ArrayList<>();
+			// Recupère les Produits qui existent dans la BDD
+			String query = "SELECT p FROM Produit p";
+			TypedQuery<Produit> q = em.createQuery(query, Produit.class);
+			// Cree un list avec les noms de produits de la BDD
+			List<String> nomProduits = new ArrayList<>();
+			for (Produit p : q.getResultList()) {
+				nomProduits.add(p.getNom());
+			}
 
-				for (Produit p : q.getResultList()) {
-					nomProduits.add(p.getNom());
-				}
+			HashSet<String> myNomProduits = new HashSet<>();
+			
+			
 
-				if (!nomProduits.contains(myProd)) {
-					newProd.setNom(myProd);
+			for (Produit prod : produits) {
+				if (!nomProduits.contains(prod.getNom().trim())) {
+					EntityManager em2 = factory.createEntityManager();
+					em2.getTransaction().begin();
+					Produit newProd = new Produit();
+
+					newProd.setNom(prod.getNom().trim());
 					newProd.setCategorie(prod.getCategorie());
 					newProd.setMarque(prod.getMarque());
 					newProd.setGrade(prod.getGrade());
@@ -57,21 +64,27 @@ public class ProduitDaoJpa {
 					newProd.setBetaCaro(prod.getBetaCaro());
 					newProd.setHuilePalme(prod.getHuilePalme());
 
-					// ouvre transaction
-					em.getTransaction().begin();
-
 					// ajoute dans la BDD
-					em.persist(newProd);
-
+					em2.persist(newProd);
 					// commit
-					em.getTransaction().commit();
+					em2.getTransaction().commit();
+					// ferme la transaction
+					em2.close();
 				}
-					// récupére l’ID dans la BDD
-					TypedQuery<Produit> query1 = em.createQuery(
-							"SELECT p FROM Produit p WHERE p.nom = '" + myProd + "'", Produit.class);
-					Produit p = query1.getResultList().get(0);
-					Integer id = p.getId();
-					prod.setId(id);
+				
+
+			}
+
+			// récupére l’ID dans la BDD
+			for (Produit prod : produits) {
+				
+			TypedQuery<Produit> query1 = em.createQuery("SELECT p FROM Produit p WHERE p.nom = '" + prod.getNom().trim() + "'",
+					Produit.class);
+			if (query1.getResultList().size() > 0) {
+			Produit p = query1.getResultList().get(0);
+			Integer id = p.getId();
+			prod.setId(id);
+			}
 			}
 
 		} catch (Exception e) {

@@ -53,7 +53,7 @@ public class Categorie {
 	
 	@Override
 	public String toString() {
-		return id + ", " + nom + ", [" + produits + "]";
+		return id + ", " + nom ;
 	}
 
 	/**

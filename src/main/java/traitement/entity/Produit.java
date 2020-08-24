@@ -3,11 +3,12 @@
  */
 package traitement.entity;
 
+import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,12 +31,12 @@ public class Produit {
 	private Integer id;
 
 	// Categorie
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "ID_cat")
 	private Categorie categorie;
 
 	// marque
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "ID_mrq")
 	private Marque marque;
 
@@ -48,18 +49,24 @@ public class Produit {
 	private String grade;
 
 	// Liste d'ingredients
-	@ManyToMany
-	@JoinTable(name = "COMPO_ING", joinColumns = @JoinColumn(name = "ID_PRO_ING"), inverseJoinColumns = @JoinColumn(name = "ID_ING"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "COMPO_ING",
+	joinColumns = @JoinColumn(name = "ID_PRO_ING"),
+	inverseJoinColumns = @JoinColumn(name = "ID_ING"))
 	private Set<Ingredient> ingredients;
 
 	// Liste d'allergènes
-	@ManyToMany
-	@JoinTable(name = "COMPO_ALLERG", joinColumns = @JoinColumn(name = "ID_PRO_AL"), inverseJoinColumns = @JoinColumn(name = "ID_ALLERG"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "COMPO_ALLERG", 
+	joinColumns = @JoinColumn(name = "ID_PRO_AL"), 
+	inverseJoinColumns = @JoinColumn(name = "ID_ALLERG"))
 	private Set<Allergene> allergenes;
 
 	// Liste d'additifs
-	@ManyToMany
-	@JoinTable(name = "COMPO_ADDI", joinColumns = @JoinColumn(name = "ID_PRO_AD"), inverseJoinColumns = @JoinColumn(name = "ID_ADDI"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "COMPO_ADDI",
+	joinColumns = @JoinColumn(name = "ID_PRO_AD"), 
+	inverseJoinColumns = @JoinColumn(name = "ID_ADDI"))
 	private Set<Additif> additifs;
 
 	// Energie pour 100g
@@ -161,79 +168,36 @@ public class Produit {
 
 	}
 
-	/**
-	 * @param id
-	 * @param idCat
-	 * @param idMrq
-	 * @param nom
-	 * @param grade
-	 * @param ingredients
-	 * @param allergenes
-	 * @param additifs
-	 * @param energie
-	 * @param graisse
-	 * @param sucre
-	 * @param fibre
-	 * @param proteine
-	 * @param sel
-	 * @param vitA
-	 * @param vitD
-	 * @param vitE
-	 * @param vitK
-	 * @param vitC
-	 * @param vitB1
-	 * @param vitB2
-	 * @param vitPp
-	 * @param vitB6
-	 * @param vitB9
-	 * @param vitB12
-	 * @param ca
-	 * @param mg
-	 * @param iron
-	 * @param fer
-	 * @param betaCaro
-	 * @param huilePalme
-	 */
-	public Produit(Categorie categorie, Marque marque, String nom, String grade, Set<Ingredient> ingredients,
-			Set<Allergene> allergenes, Set<Additif> additifs, double energie, double graisse, double sucre,
-			double fibre, double proteine, double sel, double vitA, double vitD, double vitE, double vitK, double vitC,
-			double vitB1, double vitB2, double vitPp, double vitB6, double vitB9, double vitB12, double ca, double mg,
-			double iron, double fer, double betaCaro, double huilePalme) {
-		this.categorie = categorie;
-		this.marque = marque;
+	public Produit(String nom) {
+
 		this.nom = nom;
-		this.grade = grade;
-		this.ingredients = ingredients;
-		this.allergenes = allergenes;
-		this.additifs = additifs;
-		this.energie = energie;
-		this.graisse = graisse;
-		this.sucre = sucre;
-		this.fibre = fibre;
-		this.proteine = proteine;
-		this.sel = sel;
-		this.vitA = vitA;
-		this.vitD = vitD;
-		this.vitE = vitE;
-		this.vitK = vitK;
-		this.vitC = vitC;
-		this.vitB1 = vitB1;
-		this.vitB2 = vitB2;
-		this.vitPp = vitPp;
-		this.vitB6 = vitB6;
-		this.vitB9 = vitB9;
-		this.vitB12 = vitB12;
-		this.ca = ca;
-		this.mg = mg;
-		this.iron = iron;
-		this.fer = fer;
-		this.betaCaro = betaCaro;
-		this.huilePalme = huilePalme;
+
+	}
+
+	public void addIngredient(Ingredient ingredient) {
+		if (ingredients == null) {
+			ingredients = new HashSet<>();
+		}
+		ingredients.add(ingredient);
+	}
+
+	public void addAllergenes(Allergene allergene) {
+		if (allergenes == null) {
+			allergenes = new HashSet<>();
+		}
+		allergenes.add(allergene);
+	}
+
+	public void addAdditif(Additif additif) {
+		if (additifs == null) {
+			additifs = new HashSet<>();
+		}
+		additifs.add(additif);
 	}
 
 	@Override
 	public String toString() {
-		return  nom ;
+		return nom;
 	}
 
 	/**

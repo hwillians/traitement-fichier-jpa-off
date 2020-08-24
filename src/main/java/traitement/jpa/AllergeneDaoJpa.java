@@ -1,14 +1,11 @@
 package traitement.jpa;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-
+import java.util.HashMap;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-
 import traitement.entity.Allergene;
 import traitement.entity.Produit;
 
@@ -16,10 +13,10 @@ public class AllergeneDaoJpa {
 
 	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
 
-		HashSet<String> myNomAllergenes = new HashSet<>();
+		HashMap<String,Integer> mesAllergenes = new HashMap<>();
 		for (Produit p : produits) {
 			for (Allergene a : p.getAllergenes()) {
-				myNomAllergenes.add(a.getNom().trim());
+				mesAllergenes.put(a.getNom().trim(),null);
 			}
 		}
 		try {
@@ -33,9 +30,17 @@ public class AllergeneDaoJpa {
 				nomAllergenes.add(a.getNom().trim());
 			}
 
-			for (String s : myNomAllergenes) {
+			for (String s : mesAllergenes.keySet()) {
 				// Si l'allergène n'existe pas on l'ajoute dans la BDD
-				if (!nomAllergenes.contains(s)) {
+				if (nomAllergenes.contains(s)) {
+					
+						TypedQuery<Allergene> query1 = em.createQuery(
+								"SELECT a FROM Allergene a WHERE a.nom = '" + s + "'", Allergene.class);
+						Allergene a = query1.getResultList().get(0);
+						Integer id = a.getId();
+						mesAllergenes.put(s,id);
+				}else {
+					
 
 					Allergene newAlle = new Allergene();
 					newAlle.setNom(s);
@@ -47,18 +52,20 @@ public class AllergeneDaoJpa {
 					em2.persist(newAlle);
 					// commit
 					em2.getTransaction().commit();
+					// recuperer id
+					Integer id = newAlle.getId();
+					mesAllergenes.put(s, id);
 					// ferme la transaction
 					em2.close();
 				}
 			}
-			// récupére l’ID dans la BDD
 			for (Produit p : produits) {
-				for (Allergene alle : p.getAllergenes()) {
-					TypedQuery<Allergene> query1 = em.createQuery(
-							"SELECT a FROM Allergene a WHERE a.nom = '" + alle.getNom().trim() + "'", Allergene.class);
-					Allergene a = query1.getResultList().get(0);
-					Integer id = a.getId();
-					alle.setId(id);
+				for (Allergene a : p.getAllergenes()) {
+					for (String nomAlle : mesAllergenes.keySet()) {
+						if (a.getNom().trim().equals(nomAlle)) {
+							a.setId(mesAllergenes.get(nomAlle));
+						}
+					}
 				}
 			}
 

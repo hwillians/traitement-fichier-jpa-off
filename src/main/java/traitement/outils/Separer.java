@@ -54,9 +54,38 @@ public class Separer {
 		Set<Allergene> allergenes = chaines.length >= 29 ? Recette.SepAllergene(chaines[28]) : new HashSet<Allergene>();
 		Set<Additif> additifs = chaines.length >= 30 ? Recette.SepAdditif(chaines[29]) : new HashSet<Additif>();
 
-		Produit prod = new Produit(new Categorie(categorie), new Marque(marque), nom, grade, ingredients, allergenes,
-				additifs, energie, graisse, sucre, fibre, proteine, sel, vitA, vitD, vitE, vitK, vitC, vitB1, vitB2,
-				vitPp, vitB6, vitB9, vitB12, ca, mg, iron, fer, betaCaro, huilePalme);
+		Produit prod = new Produit(nom);
+		prod.setCategorie(new Categorie(categorie));
+		prod.setMarque(new Marque(marque));
+		prod.setGrade(grade);
+		prod.setIngredients(ingredients);
+		prod.setAllergenes(allergenes);
+		prod.setAdditifs(additifs);		
+		prod.setEnergie(energie);
+		prod.setGraisse(graisse); 
+		prod.setSucre(sucre);
+		prod.setFibre(fibre);
+		prod.setProteine(proteine);
+		prod.setSel(sel);
+		prod.setVitA(vitA);
+		prod.setVitD(vitD);
+		prod.setVitE(vitE);
+		prod.setVitK(vitK);
+		prod.setVitC(vitC);
+		prod.setVitB1(vitB1);
+		prod.setVitB2(vitB2);
+		prod.setVitPp(vitPp);
+		prod.setVitB6(vitB6);
+		prod.setVitB9(vitB9);
+		prod.setVitB12(vitB12);
+		prod.setCa(ca);
+		prod.setMg(mg);
+		prod.setIron(iron);
+		prod.setFer(fer);
+		prod.setBetaCaro(betaCaro);
+		prod.setHuilePalme(huilePalme);
+		
+		
 		return prod;
 	}
 }

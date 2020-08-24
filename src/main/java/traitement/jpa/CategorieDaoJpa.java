@@ -1,7 +1,7 @@
 package traitement.jpa;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,9 +14,9 @@ import traitement.entity.Produit;
 public class CategorieDaoJpa {
 
 	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
-		HashSet<String> myNomCategories = new HashSet<>();
+		HashMap<String, Integer> myNomCategories = new HashMap<>();
 		for (Produit p : produits) {
-			myNomCategories.add(p.getCategorie().getNom().trim());
+			myNomCategories.put(p.getCategorie().getNom().trim(), null);
 		}
 		try {
 
@@ -30,9 +30,15 @@ public class CategorieDaoJpa {
 				nomCateogries.add(c.getNom());
 			}
 
-			for (String s : myNomCategories) {
+			for (String s : myNomCategories.keySet()) {
 				// Si la categorie n'existe pas on l'ajoute dans la BDD
-				if (!nomCateogries.contains(s)) {
+				if (nomCateogries.contains(s)) {
+					TypedQuery<Categorie> query1 = em.createQuery("SELECT c FROM Categorie c WHERE c.nom = '" + s + "'",
+							Categorie.class);
+					Categorie c = query1.getResultList().get(0);
+					Integer id = c.getId();
+					myNomCategories.put(s, id);
+				} else {
 					Categorie newCat = new Categorie();
 					newCat.setNom(s);
 					// ouvre transaction
@@ -42,22 +48,26 @@ public class CategorieDaoJpa {
 					em2.persist(newCat);
 					// commit
 					em2.getTransaction().commit();
+					// récupérer l’ID
+					Integer id = newCat.getId();
+					myNomCategories.put(s, id);
 					// ferme la transaction
 					em2.close();
 				}
-			}
-			// récupére l’ID dans la BDD
-			for (Produit p : produits) {
-				TypedQuery<Categorie> query1 = em.createQuery(
-						"SELECT c FROM Categorie c WHERE c.nom = '" + p.getCategorie().getNom().trim() + "'", Categorie.class);
-				Categorie c = query1.getResultList().get(0);
-				Integer id = c.getId();
-				p.getCategorie().setId(id);
+
 			}
 
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());
 		}
+		for (Produit p : produits) {
+			for (String nomCat : myNomCategories.keySet()) {
+				if (p.getCategorie().getNom().trim().equals(nomCat)) {
+					p.getCategorie().setId(myNomCategories.get(nomCat));
+				}
+			}
+		}
+
 	}
 
 }

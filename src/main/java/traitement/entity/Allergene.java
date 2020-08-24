@@ -2,6 +2,7 @@ package traitement.entity;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class Allergene {
 	private Integer id;
 	@Column(name = "NOM", length = 50, nullable = false)
 	private String nom;
-	@ManyToMany(mappedBy = "allergenes")
+	@ManyToMany(mappedBy = "allergenes", cascade = CascadeType.ALL)
 	private Set<Produit> produits;
 
 	/**

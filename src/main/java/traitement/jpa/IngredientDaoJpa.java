@@ -1,7 +1,7 @@
 package traitement.jpa;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,11 +14,11 @@ import traitement.entity.Produit;
 public class IngredientDaoJpa {
 
 	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
-		
-		HashSet<String> myNomIngredeints = new HashSet<>();
+
+		HashMap<String, Integer> mesIngredients = new HashMap<>();
 		for (Produit p : produits) {
 			for (Ingredient i : p.getIngredients()) {
-				myNomIngredeints.add(i.getNom().trim());
+				mesIngredients.put(i.getNom().trim(), null);
 			}
 		}
 		try {
@@ -31,10 +31,17 @@ public class IngredientDaoJpa {
 			for (Ingredient i : q.getResultList()) {
 				nomIngredients.add(i.getNom().trim());
 			}
-			
-			for (String s : myNomIngredeints) {
+
+			for (String s : mesIngredients.keySet()) {
 				// Si l'ingredient n'existe pas on l'ajoute dans la BDD
-				if (!nomIngredients.contains(s)) {
+				if (nomIngredients.contains(s)) {
+					TypedQuery<Ingredient> query1 = em
+							.createQuery("SELECT i FROM Ingredient i WHERE i.nom = '" + s + "'", Ingredient.class);
+
+					Ingredient i = query1.getResultList().get(0);
+					Integer id = i.getId();
+					mesIngredients.put(s,id);
+				} else {
 					Ingredient newIng = new Ingredient();
 					newIng.setNom(s);
 
@@ -45,24 +52,23 @@ public class IngredientDaoJpa {
 					em2.persist(newIng);
 					// commit
 					em2.getTransaction().commit();
+					// recupere l'ID
+					Integer id = newIng.getId();
+					mesIngredients.put(s, id);
 					// ferme la transaction
 					em2.close();
 				}
 			}
-			// récupére l’ID dans la BDD
-			for (Produit p : produits) {
-				for (Ingredient ing : p.getIngredients()) {
 
-					TypedQuery<Ingredient> query1 = em.createQuery(
-							"SELECT i FROM Ingredient i WHERE i.nom = '" + ing.getNom().trim() + "'", Ingredient.class);
-					if (query1.getResultList().size() > 0) {
-						Ingredient i = query1.getResultList().get(0);
-						Integer id = i.getId();
-						ing.setId(id);
+			for (Produit p : produits) {
+				for (Ingredient i : p.getIngredients()) {
+					for (String nomIng : mesIngredients.keySet()) {
+						if (i.getNom().trim().equals(nomIng)) {
+							i.setId(mesIngredients.get(nomIng));
+						}
 					}
 				}
 			}
-
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());
 		}

@@ -3,7 +3,6 @@
  */
 package traitement.entity;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,15 +24,17 @@ import javax.persistence.Table;
 
 public class Categorie {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 
-	@Column(name = "NOM", length = 250, nullable = false)
-	private String nom;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Integer id;
 
-	@OneToMany(mappedBy = "categorie",cascade = CascadeType.ALL)
-	private Set<Produit> produits;
+		@Column(name = "NOM", length = 250, nullable = false)
+		private String nom;
+
+		@OneToMany(mappedBy = "categorie",cascade = CascadeType.ALL)
+		private Set<Produit> produits;
+
 
 	/**
 	 * 

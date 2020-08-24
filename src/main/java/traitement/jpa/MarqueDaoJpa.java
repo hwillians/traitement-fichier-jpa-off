@@ -14,6 +14,7 @@ public class MarqueDaoJpa {
 		try {
 
 			Marque newMrq = new Marque();
+			String myMarque = marque.getNom().toLowerCase();
 
 			if (em != null) {
 				String query = "SELECT m FROM Marque m";
@@ -24,8 +25,8 @@ public class MarqueDaoJpa {
 					nomMarques.add(m.getNom());
 				}
 
-				if (!nomMarques.contains(marque.getNom())) {
-					newMrq.setNom(marque.getNom());
+				if (!nomMarques.contains(myMarque)) {
+					newMrq.setNom(myMarque);
 
 					// ouvre transaction
 					em.getTransaction().begin();
@@ -38,10 +39,11 @@ public class MarqueDaoJpa {
 				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Marque> query1 = em.createQuery(
-							"SELECT m FROM Marque m WHERE m.nom = '" + marque.getNom() + "'", Marque.class);
-					Marque m = query1.getSingleResult();
+							"SELECT m FROM Marque m WHERE m.nom = '" + myMarque + "'", Marque.class);
+					Marque m = query1.getResultList().get(0);
 					Integer id = m.getId();
 					marque.setId(id);
+				
 				
 			}
 		} catch (Exception e) {

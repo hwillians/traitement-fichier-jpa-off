@@ -15,6 +15,7 @@ public class IngredientDaoJpa {
 
 		try {
 			Ingredient newIng = new Ingredient();
+			String myIngredient = ing.getNom().toLowerCase();
 
 			if (em != null) {
 				String query = "SELECT ing FROM Ingredient ing";
@@ -25,8 +26,8 @@ public class IngredientDaoJpa {
 					nomIngredients.add(i.getNom());
 				}
 
-				if (!nomIngredients.contains(ing.getNom())) {
-					newIng.setNom(ing.getNom());
+				if (!nomIngredients.contains(myIngredient)) {
+					newIng.setNom(myIngredient);
 
 					// ouvre transaction
 					em.getTransaction().begin();
@@ -39,10 +40,11 @@ public class IngredientDaoJpa {
 				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Ingredient> query1 = em.createQuery(
-							"SELECT i FROM Ingredient i WHERE i.nom = '" + ing.getNom() + "'", Ingredient.class);
-					Ingredient i = query1.getSingleResult();
+							"SELECT i FROM Ingredient i WHERE i.nom = '" + myIngredient + "'", Ingredient.class);
+					Ingredient i = query1.getResultList().get(0);
 					Integer id = i.getId();
 					ing.setId(id);
+				
 				
 			}
 

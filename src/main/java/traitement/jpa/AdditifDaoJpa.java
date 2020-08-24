@@ -14,6 +14,7 @@ public class AdditifDaoJpa {
 
 		try {
 			Additif newAddi = new Additif();
+			String myAddi = addi.getNom().toLowerCase();
 
 			if (em != null) {
 				String query = "SELECT a FROM Additif a";
@@ -24,8 +25,8 @@ public class AdditifDaoJpa {
 					nomAdditifs.add(a.getNom());
 				}
 
-				if (!nomAdditifs.contains(addi.getNom())) {
-					newAddi.setNom(addi.getNom());
+				if (!nomAdditifs.contains(myAddi)) {
+					newAddi.setNom(myAddi);
 
 					// ouvre transaction
 					em.getTransaction().begin();
@@ -38,11 +39,10 @@ public class AdditifDaoJpa {
 				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Additif> query1 = em.createQuery(
-							"SELECT a FROM Additif a WHERE a.nom = '" + addi.getNom() + "'", Additif.class);
-					Additif a = query1.getSingleResult();
+							"SELECT a FROM Additif a WHERE a.nom = '" + myAddi + "'", Additif.class);
+					Additif a = query1.getResultList().get(0);
 					Integer id = a.getId();
 					addi.setId(id);
-				
 			}
 
 		} catch (Exception e) {

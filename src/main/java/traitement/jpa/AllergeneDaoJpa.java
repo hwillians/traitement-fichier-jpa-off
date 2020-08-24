@@ -14,6 +14,7 @@ public class AllergeneDaoJpa {
 
 		try {
 			Allergene newAlle = new Allergene();
+			String myAllergene = alle.getNom().toLowerCase();
 
 			if (em != null) {
 				String query = "SELECT a FROM Allergene a";
@@ -24,8 +25,8 @@ public class AllergeneDaoJpa {
 					nomAllergenes.add(a.getNom());
 				}
 
-				if (!nomAllergenes.contains(alle.getNom())) {
-					newAlle.setNom(alle.getNom());
+				if (!nomAllergenes.contains(myAllergene)) {
+					newAlle.setNom(myAllergene);
 
 					// ouvre transaction
 					em.getTransaction().begin();
@@ -38,8 +39,8 @@ public class AllergeneDaoJpa {
 				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Allergene> query1 = em.createQuery(
-							"SELECT a FROM Allergene a WHERE a.nom = '" + alle.getNom() + "'", Allergene.class);
-					Allergene a = query1.getSingleResult();
+							"SELECT a FROM Allergene a WHERE a.nom = '" + myAllergene + "'", Allergene.class);
+					Allergene a = query1.getResultList().get(0);
 					Integer id = a.getId();
 					alle.setId(id);
 				

@@ -14,7 +14,9 @@ public class CategorieDaoJpa {
 	public static void insert(Categorie cat, EntityManagerFactory factory, EntityManager em) {
 
 		try {
+			
 			Categorie newCat = new Categorie();
+			String myCat = cat.getNom().toLowerCase();
 
 			if (em != null) {
 
@@ -29,8 +31,8 @@ public class CategorieDaoJpa {
 				}
 
 				// Si la categorie n'existe pas on l'ajoute dans la BDD
-				if (!nomCateogries.contains(cat.getNom())) {
-					newCat.setNom(cat.getNom());
+				if (!nomCateogries.contains(myCat)) {
+					newCat.setNom(myCat);
 
 					// ouvre transaction
 					em.getTransaction().begin();
@@ -45,12 +47,10 @@ public class CategorieDaoJpa {
 
 				// récupére l’ID dans la BDD
 				TypedQuery<Categorie> query1 = em
-						.createQuery("SELECT c FROM Categorie c WHERE c.nom = '" + cat.getNom() + "'", Categorie.class);
-				Categorie c = query1.getSingleResult();
+						.createQuery("SELECT c FROM Categorie c WHERE c.nom = '" + myCat + "'", Categorie.class);
+				Categorie c = query1.getResultList().get(0);
 				Integer id = c.getId();
 				cat.setId(id);
-				System.out.println(id+"\n------------------------------" );
-
 
 			}
 

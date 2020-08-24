@@ -17,6 +17,7 @@ public class ProduitDaoJpa {
 		
 		try {
 			Produit newProd = new Produit();
+			String myProd = prod.getNom().toLowerCase();
 
 			if (em != null) {
 				String query = "SELECT p FROM Produit p";
@@ -27,8 +28,8 @@ public class ProduitDaoJpa {
 					nomProduits.add(p.getNom());
 				}
 
-				if (!nomProduits.contains(prod.getNom())) {
-					newProd.setNom(prod.getNom());
+				if (!nomProduits.contains(myProd)) {
+					newProd.setNom(myProd);
 					newProd.setCategorie(prod.getCategorie());
 					newProd.setMarque(prod.getMarque());
 					newProd.setGrade(prod.getGrade());
@@ -67,11 +68,10 @@ public class ProduitDaoJpa {
 				}
 					// récupére l’ID dans la BDD
 					TypedQuery<Produit> query1 = em.createQuery(
-							"SELECT p FROM Produit p WHERE p.nom = '" + prod.getNom() + "'", Produit.class);
-					Produit p = query1.getSingleResult();
+							"SELECT p FROM Produit p WHERE p.nom = '" + myProd + "'", Produit.class);
+					Produit p = query1.getResultList().get(0);
 					Integer id = p.getId();
 					prod.setId(id);
-				
 			}
 
 		} catch (Exception e) {

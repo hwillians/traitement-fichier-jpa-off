@@ -1,11 +1,7 @@
 package traitement.serv;
 
 import java.util.ArrayList;
-
-
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
 import traitement.entity.Produit;
 import traitement.jpa.AdditifDaoJpa;
 import traitement.jpa.AllergeneDaoJpa;
@@ -19,21 +15,15 @@ import traitement.jpa.ProduitDaoJpa;
  */
 public class ToBDD {
 
-	public static void insertion(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
+	public static void insertion(ArrayList<Produit> produits, EntityManagerFactory factory) {
 
 		// ouvre transaction
-		em.getTransaction().begin();
-
-		CategorieDaoJpa.insert(produits, factory, em);
-		MarqueDaoJpa.insert(produits, factory, em);
-		IngredientDaoJpa.insert(produits, factory, em);
-		AdditifDaoJpa.insert(produits, factory, em);
-		AllergeneDaoJpa.insert(produits, factory, em);
-		ProduitDaoJpa.insert(produits, factory, em);
-		
-		em.close();
-		factory.close();
-
+		CategorieDaoJpa.insert(produits, factory);
+		MarqueDaoJpa.insert(produits, factory);
+		IngredientDaoJpa.insert(produits, factory);
+		AdditifDaoJpa.insert(produits, factory);
+		AllergeneDaoJpa.insert(produits, factory);
+		ProduitDaoJpa.insert(produits, factory);
 	}
 
 }

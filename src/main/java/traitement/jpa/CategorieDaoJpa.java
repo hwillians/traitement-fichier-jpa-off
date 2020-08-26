@@ -11,9 +11,17 @@ import javax.persistence.TypedQuery;
 import traitement.entity.Categorie;
 import traitement.entity.Produit;
 
+/**
+ * @author helvin
+ *
+ */
 public class CategorieDaoJpa {
 
-	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
+	/**
+	 * @param produits
+	 * @param factory
+	 */
+	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory) {
 		HashMap<String, Integer> myNomCategories = new HashMap<>();
 		for (Produit p : produits) {
 			myNomCategories.put(p.getCategorie().getNom().trim(), null);
@@ -22,8 +30,9 @@ public class CategorieDaoJpa {
 
 			// Recupère les catégories qui existent dans la BDD
 			String query = "SELECT c FROM Categorie c";
+			EntityManager em = factory.createEntityManager();
 			TypedQuery<Categorie> q = em.createQuery(query, Categorie.class);
-
+			
 			// Cree un list avec les noms des càtegories de la BDD
 			List<String> nomCateogries = new ArrayList<>();
 			for (Categorie c : q.getResultList()) {
@@ -56,7 +65,7 @@ public class CategorieDaoJpa {
 				}
 
 			}
-
+			em.close();
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());
 		}

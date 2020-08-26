@@ -43,7 +43,7 @@ public class Categorie {
 	}
 
 	/**
-	 * @param nom
+	 * @param nom de categorie
 	 */
 	public Categorie(String nom) {
 		this.nom = nom;

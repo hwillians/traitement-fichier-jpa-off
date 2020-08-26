@@ -21,12 +21,11 @@ public class Application {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("pu_essai");
 		EntityManager em = factory.createEntityManager();
 		
-		ToBDD.insertion(produits, factory, em);
-	
+		ToBDD.insertion(produits, factory);
 		
-	
-		
-		
+		em.close();
+		factory.close();
+
 
 	}
 

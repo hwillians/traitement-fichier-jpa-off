@@ -30,7 +30,7 @@ public class Ingredient {
 	}
 
 	/**
-	 * @param nom
+	 * @param nom Ingredient
 	 */
 	public Ingredient(String nom) {
 		this.nom = nom;

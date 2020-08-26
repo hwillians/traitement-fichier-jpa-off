@@ -11,10 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-/*
- * 
- */
 
+/**
+ * @author helvin
+ *
+ */
 @Entity
 @Table(name = "ADDITIF")
 public class Additif {
@@ -32,9 +33,10 @@ public class Additif {
 	public Additif() {
 
 	}
-
+	
 	/**
-	 * @param nom
+	 * @param nom nom de l'additif
+	 * 
 	 */
 	public Additif(String nom) {
 		this.nom = nom;

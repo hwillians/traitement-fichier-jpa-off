@@ -11,9 +11,17 @@ import javax.persistence.TypedQuery;
 import traitement.entity.Ingredient;
 import traitement.entity.Produit;
 
+/**
+ * @author helvin
+ *
+ */
 public class IngredientDaoJpa {
 
-	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
+	/**
+	 * @param produits
+	 * @param factory
+	 */
+	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory) {
 
 		HashMap<String, Integer> mesIngredients = new HashMap<>();
 		for (Produit p : produits) {
@@ -25,6 +33,7 @@ public class IngredientDaoJpa {
 
 			// Recupère les ingredients qui existent dans la BDD
 			String query = "SELECT ing FROM Ingredient ing";
+			EntityManager em = factory.createEntityManager();
 			TypedQuery<Ingredient> q = em.createQuery(query, Ingredient.class);
 			// Cree un list avec les noms d'ingredients de la BDD
 			List<String> nomIngredients = new ArrayList<>();
@@ -69,6 +78,7 @@ public class IngredientDaoJpa {
 					}
 				}
 			}
+			em.close();
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());
 		}

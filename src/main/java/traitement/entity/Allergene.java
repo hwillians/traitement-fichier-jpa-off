@@ -31,7 +31,7 @@ public class Allergene {
 	
 
 	/**
-	 * @param nom
+	 * @param nom d'allergene
 	 */
 	public Allergene(String nom) {
 		this.nom = nom;

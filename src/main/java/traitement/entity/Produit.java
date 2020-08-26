@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
+ * 
  * @author helvin
  *
  */
@@ -51,8 +52,8 @@ public class Produit {
 	// Liste d'ingredients
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "COMPO_ING",
-	joinColumns = @JoinColumn(name = "ID_PRO_ING"),
-	inverseJoinColumns = @JoinColumn(name = "ID_ING"))
+	joinColumns = @JoinColumn(name = "ID_PRO_ING", referencedColumnName="id"),
+	inverseJoinColumns = @JoinColumn(name = "ID_ING", referencedColumnName="id"))
 	private Set<Ingredient> ingredients;
 
 	// Liste d'allergènes
@@ -161,6 +162,7 @@ public class Produit {
 	@Column(name = "HUILEPALME", nullable = false)
 	private double huilePalme;
 
+	
 	/**
 	 * 
 	 */
@@ -168,6 +170,9 @@ public class Produit {
 
 	}
 
+	/**
+	 * @param nom produit
+	 */
 	public Produit(String nom) {
 
 		this.nom = nom;

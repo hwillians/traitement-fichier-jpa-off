@@ -32,8 +32,8 @@ public class Marque {
 	
 	
 
-	/**
-	 * @param nom
+	/** 
+	 * @param nom marque
 	 */
 	public Marque(String nom) {
 		this.nom = nom;

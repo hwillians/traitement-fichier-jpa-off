@@ -7,22 +7,35 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
+import traitement.entity.Additif;
+import traitement.entity.Allergene;
+import traitement.entity.Ingredient;
 import traitement.entity.Produit;
 
+/**
+ * @author helvin
+ *
+ */
 public class ProduitDaoJpa {
 
-	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
+	/**
+	 * @param produits
+	 * @param factory
+	 */
+	
+	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory) {
 
 		try {
 			// Recupère les Produits qui existent dans la BDD
 			String query = "SELECT p FROM Produit p";
+			EntityManager em = factory.createEntityManager();
 			TypedQuery<Produit> q = em.createQuery(query, Produit.class);
 			// Cree un list avec les noms de produits de la BDD
 			List<String> nomProduitsBdd = new ArrayList<>();
 			for (Produit p : q.getResultList()) {
 				nomProduitsBdd.add(p.getNom());
 			}
-		
+
 			for (Produit prod : produits) {
 				if (nomProduitsBdd.contains(prod.getNom().trim())) {
 					TypedQuery<Produit> query1 = em.createQuery(
@@ -65,18 +78,30 @@ public class ProduitDaoJpa {
 					newProd.setBetaCaro(prod.getBetaCaro());
 					newProd.setHuilePalme(prod.getHuilePalme());
 
+					for (Ingredient ing : prod.getIngredients()) {
+						prod.addIngredient(ing);
+					}
+					for (Additif addi : prod.getAdditifs()) {
+						prod.addAdditif(addi);
+					}
+					for (Allergene alle : prod.getAllergenes()) {
+						prod.addAllergenes(alle);
+					}
+
 					// ajoute dans la BDD
 					em2.persist(newProd);
 					// commit
 					em2.getTransaction().commit();
-					//recupererId
+					// recupererId
 					Integer id = newProd.getId();
 					prod.setId(id);
 					// ferme la transaction
 					em2.close();
-					
+
 				}
+
 			}
+			em.close();
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage() + " In produit");
 

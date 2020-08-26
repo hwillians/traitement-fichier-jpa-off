@@ -9,8 +9,17 @@ import javax.persistence.TypedQuery;
 import traitement.entity.Additif;
 import traitement.entity.Produit;
 
+/**
+ * @author helvin
+ *
+ */
 public class AdditifDaoJpa {
-	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
+	/**
+	 * @param produits a insérer
+	 * @param factory 
+	 * 
+	 */
+	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory) {
 
 		HashMap<String, Integer> myNomAdditifs = new HashMap<>();
 		for (Produit p : produits) {
@@ -22,6 +31,7 @@ public class AdditifDaoJpa {
 		try {
 			// Recupère les Additifq qui existent dans la BDD
 			String query = "SELECT a FROM Additif a";
+			EntityManager em =  factory.createEntityManager(); 
 			TypedQuery<Additif> q = em.createQuery(query, Additif.class);
 			// Cree un list avec les noms d'ingredients de la BDD
 			List<String> nomAdditifs = new ArrayList<>();
@@ -67,6 +77,7 @@ public class AdditifDaoJpa {
 				}
 			}
 
+		em.close();
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage() + "In additif");
 		}

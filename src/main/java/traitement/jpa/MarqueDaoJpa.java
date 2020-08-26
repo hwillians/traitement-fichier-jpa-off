@@ -10,9 +10,17 @@ import javax.persistence.TypedQuery;
 import traitement.entity.Marque;
 import traitement.entity.Produit;
 
+/**
+ * @author helvin
+ *
+ */
 public class MarqueDaoJpa {
 
-	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory, EntityManager em) {
+	/**
+	 * @param produits liste de produits
+	 * @param factory 
+	 */
+	public static void insert(ArrayList<Produit> produits, EntityManagerFactory factory) {
 		HashMap<String,Integer> myNomMarques = new HashMap<>();
 		for (Produit p : produits) {
 
@@ -24,6 +32,7 @@ public class MarqueDaoJpa {
 
 			// Recupère les Marque qui existent dans la BDD
 			String query = "SELECT m FROM Marque m";
+			EntityManager em = factory.createEntityManager();
 			TypedQuery<Marque> q = em.createQuery(query, Marque.class);
 
 			// Cree un list avec les noms des Marque de la BDD
@@ -56,7 +65,7 @@ public class MarqueDaoJpa {
 					em2.close();
 				}
 			}
-				
+				em.close();
 		} catch (Exception e) {
 			System.err.println("Erreur d'éxecution : " + e.getMessage());
 		}

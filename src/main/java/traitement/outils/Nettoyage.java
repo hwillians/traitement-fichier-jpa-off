@@ -2,18 +2,7 @@ package traitement.outils;
 
 import java.util.List;
 
-/**
- * @author helvin
- * suppresion des élements parasites.
- */
-/**
- * @author helvin
- *
- */
-/**
- * @author helvin
- *
- */
+
 /**
  * @author helvin
  *
@@ -38,8 +27,8 @@ public class Nettoyage {
 	/**
 	 * Pour supprimer des Parentheses
 	 * 
-	 * @param chaine
-	 * @return chaine après traitement.
+	 * @param chaine avant traitement
+	 * @return chaine sans parentheses
 	 */
 	public static String Parentheses(String chaine) {
 		return chaine.replaceAll("\\(.*?\\)", "").trim();
@@ -48,8 +37,8 @@ public class Nettoyage {
 	/**
 	 * Pour supprimer des pourcentages
 	 * 
-	 * @param chaine
-	 * @return
+	 * @param chaine avant traitement
+	 * @return chaine sans pourcentages
 	 */
 	public static String Pourcentage(String chaine) {
 		return chaine.replaceAll("[0-9]*\\s*%", "").trim();
@@ -58,8 +47,8 @@ public class Nettoyage {
 	/**
 	 * Suppression des numérotations
 	 * 
-	 * @param chaine
-	 * @return
+	 * @param chaine avant traitement
+	 * @return chaine sans numeration
 	 */
 	public static String Numerotations(String chaine) {
 		return chaine.replaceAll("[0-9]*\\.*", "").trim();
